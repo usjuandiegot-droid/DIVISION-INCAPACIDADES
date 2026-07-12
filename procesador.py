@@ -200,6 +200,8 @@ def procesar_peru(archivo_entrada, archivo_salida):
     print("4. Renombrando columnas...", flush=True)
 
     # Renombrar temporalmente para reutilizar la función
+    df = df.drop(columns=["Fecha de Inicio", "Fecha de Fin"])
+
     df = df.rename(columns={
         "Fecha de Inicio (Tipo)": "Fecha de Inicio",
         "Fecha de Fin (Tipo)": "Fecha de Fin"
