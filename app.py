@@ -3,11 +3,13 @@ from werkzeug.utils import secure_filename
 import os
 import tempfile
 from io import BytesIO
+from flask_cors import CORS
+
 
 from procesador import procesar_colombia, procesar_peru
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/", methods=["GET"])
 def home():
