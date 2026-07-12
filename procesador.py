@@ -1,20 +1,17 @@
 import pandas as pd
 import time
 
-inicio = time.time()
-print("1. Leyendo Excel...")
 
 def dividir_incapacidades_por_mes(row):
     """
     Divide una incapacidad en varios registros cuando abarca más de un mes.
     """
-    print("2. Excel leído")
-    print("3. Convirtiendo fechas...")
+
     fechas = []
 
     inicio = row["Fecha de Inicio"]
     fin = row["Fecha de Fin"]
-    print("4. Dividiendo por meses...")
+
     while inicio <= fin:
 
         mes = inicio.month
@@ -43,20 +40,29 @@ def dividir_incapacidades_por_mes(row):
 
 def procesar_colombia(archivo_entrada, archivo_salida):
 
-    # Leer archivo
+    inicio = time.time()
+
+    print("1. Leyendo Excel...", flush=True)
+
     df = pd.read_excel(archivo_entrada)
 
-    # Convertir fechas
+    print("2. Excel leído", flush=True)
+
+    print("3. Convirtiendo fechas...", flush=True)
+
     df["Fecha de Inicio"] = pd.to_datetime(df["Fecha de Inicio"])
     df["Fecha de Fin"] = pd.to_datetime(df["Fecha de Fin"])
 
-    # Dividir incapacidades por mes
+    print("4. Dividiendo por meses...", flush=True)
+
     df["meses"] = df.apply(dividir_incapacidades_por_mes, axis=1)
 
-    # Expandir las listas en filas
+    print("5. Explode...", flush=True)
+
     resultados = df.explode("meses")
-    print("5. Explode terminado")
-    # Crear columnas Mes y Total Días
+
+    print("6. Convirtiendo columnas...", flush=True)
+
     resultados = pd.concat(
         [
             resultados.drop(columns=["meses"]),
@@ -65,13 +71,11 @@ def procesar_colombia(archivo_entrada, archivo_salida):
         axis=1
     )
 
-    # Eliminar columna si existe
     if "Dias Pagados" in resultados.columns:
         resultados = resultados.drop(columns=["Dias Pagados"])
-    
-    print("6. Guardando Excel...")
 
-    # Guardar resultado
+    print("7. Guardando Excel...", flush=True)
+
     with pd.ExcelWriter(archivo_salida, engine="openpyxl") as writer:
         resultados.to_excel(
             writer,
@@ -79,8 +83,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
             sheet_name="Base HMV"
         )
 
-    print(f"7. Finalizado en {time.time()-inicio:.2f} segundos")
-
+    print(f"8. Finalizado en {time.time() - inicio:.2f} segundos", flush=True)
 
 def procesar_peru(archivo_entrada, archivo_salida):
     shutil.copy(archivo_entrada, archivo_salida)
