@@ -1,16 +1,20 @@
 import pandas as pd
+import time
 
+inicio = time.time()
+print("1. Leyendo Excel...")
 
 def dividir_incapacidades_por_mes(row):
     """
     Divide una incapacidad en varios registros cuando abarca más de un mes.
     """
-
+    print("2. Excel leído")
+    print("3. Convirtiendo fechas...")
     fechas = []
 
     inicio = row["Fecha de Inicio"]
     fin = row["Fecha de Fin"]
-
+    print("4. Dividiendo por meses...")
     while inicio <= fin:
 
         mes = inicio.month
@@ -51,7 +55,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
 
     # Expandir las listas en filas
     resultados = df.explode("meses")
-
+    print("5. Explode terminado")
     # Crear columnas Mes y Total Días
     resultados = pd.concat(
         [
@@ -64,6 +68,8 @@ def procesar_colombia(archivo_entrada, archivo_salida):
     # Eliminar columna si existe
     if "Dias Pagados" in resultados.columns:
         resultados = resultados.drop(columns=["Dias Pagados"])
+    
+    print("6. Guardando Excel...")
 
     # Guardar resultado
     with pd.ExcelWriter(archivo_salida, engine="openpyxl") as writer:
@@ -73,7 +79,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
             sheet_name="Base HMV"
         )
 
-
+    print(f"7. Finalizado en {time.time()-inicio:.2f} segundos")
 
 
 def procesar_peru(archivo_entrada, archivo_salida):
