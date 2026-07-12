@@ -76,6 +76,11 @@ def procesar_colombia(archivo_entrada, archivo_salida):
 
     print("7. Guardando Excel...", flush=True)
 
+    print(f"Filas y columnas: {resultados.shape}", flush=True)
+    
+    memoria_mb = resultados.memory_usage(deep=True).sum() / 1024 / 1024
+    print(f"Memoria del DataFrame: {memoria_mb:.2f} MB", flush=True)
+    
     with pd.ExcelWriter(archivo_salida, engine="openpyxl") as writer:
         resultados.to_excel(
             writer,
@@ -83,7 +88,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
             sheet_name="Base HMV"
         )
 
-    print(f"8. Finalizado en {time.time() - inicio:.2f} segundos", flush=True)
+print(f"8. Finalizado en {time.time() - inicio:.2f} segundos", flush=True)
 
 def procesar_peru(archivo_entrada, archivo_salida):
     shutil.copy(archivo_entrada, archivo_salida)
