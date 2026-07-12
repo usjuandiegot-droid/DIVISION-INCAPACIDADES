@@ -81,7 +81,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
     memoria_mb = resultados.memory_usage(deep=True).sum() / 1024 / 1024
     print(f"Memoria del DataFrame: {memoria_mb:.2f} MB", flush=True)
     
-    with pd.ExcelWriter(archivo_salida, engine="openpyxl") as writer:
+    with pd.ExcelWriter(archivo_salida, engine="xlsxwriter") as writer:
         resultados.to_excel(
             writer,
             index=False,
