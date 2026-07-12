@@ -186,7 +186,7 @@ def procesar_peru(archivo_entrada, archivo_salida):
     print("1. Leyendo Excel Perú...", flush=True)
 
     # Leer archivo
-    df = pd.read_excel(archivo_entrada, usecols=range(17))
+    df = pd.read_excel(archivo_entrada)
 
     print("2. Excel leído", flush=True)
 
