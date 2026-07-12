@@ -18,7 +18,11 @@ def home():
 
 @app.route("/procesar", methods=["POST"])
 def procesar():
-
+    print("===== NUEVA PETICIÓN =====")
+    print("request.files:", request.files)
+    print("request.form:", request.form)
+    print("request.content_type:", request.content_type)
+    
     # Validar que venga un archivo
     if "archivo" not in request.files:
         return jsonify({"error": "No se recibió ningún archivo."}), 400
