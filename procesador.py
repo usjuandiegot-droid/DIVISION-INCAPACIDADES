@@ -88,7 +88,7 @@ def procesar_colombia(archivo_entrada, archivo_salida):
             sheet_name="Base HMV"
         )
 
-print(f"8. Finalizado en {time.time() - inicio:.2f} segundos", flush=True)
+    print(f"8. Finalizado en {time.time() - inicio:.2f} segundos", flush=True)
 
 def procesar_peru(archivo_entrada, archivo_salida):
     shutil.copy(archivo_entrada, archivo_salida)
