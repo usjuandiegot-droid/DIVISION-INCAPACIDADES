@@ -2,6 +2,7 @@ from flask import Flask, request, send_file, jsonify
 from werkzeug.utils import secure_filename
 import os
 import tempfile
+from io import BytesIO
 
 from procesador import procesar_colombia, procesar_peru
 
@@ -56,8 +57,14 @@ def procesar():
             ruta_salida = os.path.join(temp_dir, "GLOBANT PERU.xlsx")
             procesar_peru(ruta_entrada, ruta_salida)
 
+
+        with open(ruta_salida, "rb") as f:
+            archivo_bytes = BytesIO(f.read())
+        
+        archivo_bytes.seek(0)
+        
         return send_file(
-            ruta_salida,
+            archivo_bytes,
             as_attachment=True,
             download_name=os.path.basename(ruta_salida),
             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
